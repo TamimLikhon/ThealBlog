@@ -1,0 +1,5 @@
+add feild of first name, last name, phone number
+make it editable done
+
+user can create a post, delete a post
+another user caan see this
