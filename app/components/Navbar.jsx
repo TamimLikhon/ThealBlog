@@ -15,6 +15,8 @@ export default function Navbar() {
                 <Link href="/auth/login" className="hover:text-gray-300 transition">Login</Link>
                 <Link href="/auth/signup" className="hover:text-gray-300 transition">Signup</Link>
                 <Link href="/userProfile" className="hover:text-gray-300 transition">Profile</Link>
+                <Link href="/createpost" className="hover:text-gray-300 transition"> Blog</Link>
+                <Link href="/feeds" className="hover:text-gray-300 transition">Feeds</Link>
             </div>
 
             {/* Profile (Right - Top Corner) */}
