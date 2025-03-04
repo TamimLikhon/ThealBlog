@@ -3,4 +3,20 @@ make it editable done
 
 user can create a post - done
  delete a post
+
+
+
+i created my blog section, where only signed in user blog has been displayed.
+user can individually see a particular post.
+
+I created edit option so user can edit a particular blog.
+
+
+we need to create another component so that user can see only his blog.
+create a side navabar where two option will be stay: one is the write blog section, another is my blog section.
+
+
+
+
+
 another user caan see this - done
