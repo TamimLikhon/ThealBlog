@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
+import TiptapEditor from "../components/Tiptap";
 
 export default function CreatePost() {
     const { data: session, status } = useSession();
     const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState(""); // Rich text content
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
@@ -27,7 +28,7 @@ export default function CreatePost() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     title,
-                    content,
+                    content, // This now contains formatted HTML from Tiptap
                     authorEmail: session?.user?.email,
                 }),
             });
@@ -37,7 +38,7 @@ export default function CreatePost() {
             if (response.ok) {
                 setMessage("Post created successfully!");
                 setTitle("");
-                setContent("");
+                setContent(""); // Clear content after success
             } else {
                 setError(data.message || "Failed to create post.");
             }
@@ -80,16 +81,8 @@ export default function CreatePost() {
                         <p className="text-xs text-gray-500 mt-1">{title.length}/100</p>
                     </div>
 
-                    <div className="mb-4">
-                        <label className="block text-gray-700 font-medium mb-1">Content</label>
-                        <textarea
-                            className="w-full p-3 h-32 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter content"
-                            value={content}
-                            onChange={(e) => setContent(e.target.value)}
-                            maxLength={500}
-                        />
-                        <p className="text-xs text-gray-500 mt-1">{content.length}/500</p>
+                    <div className="mt-10">
+                        <TiptapEditor content={content} setContent={setContent} />
                     </div>
 
                     {error && <p className="text-red-500 text-sm mb-3">{error}</p>}

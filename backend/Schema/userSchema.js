@@ -12,6 +12,9 @@ const userSchema = new mongoose.Schema(
     district: { type: String, required: true },
     zipcode: { type: Number, required: true }, 
 
+    following: { type: [String], default: [] }, // Store emails of followed users
+    followers: { type: [String], default: [] }, // Store emails of followers
+
     isVerified: { type: Boolean, default: false },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
@@ -19,9 +22,8 @@ const userSchema = new mongoose.Schema(
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 const User = mongoose.models.Authuser || mongoose.model("Authuser", userSchema);
-
 export default User;

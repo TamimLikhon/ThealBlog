@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-
+import TiptapEditor from "@/app/components/Tiptap";
+import ShareButtons from "@/app/components/shareButton";
 export default function MyIndipost() {
     const { title } = useParams();
     const { data: session } = useSession();
@@ -80,12 +81,8 @@ export default function MyIndipost() {
                 Author: {post.authorEmail} | Date: {new Date(post.createdAt).toLocaleDateString()} | updated: {new Date(post.updatedAt).toLocaleDateString()}
             </p>
             {isEditing ? (
-                <textarea
-                    value={newContent}
-                    onChange={(e) => setNewContent(e.target.value)}
-                    className="w-full p-2 border rounded"
-                    rows="5"
-                />
+                                        <TiptapEditor content={newContent} setContent={setNewContent} />
+
             ) : (
                 <p className="text-lg">{post.content}</p>
             )}
@@ -98,6 +95,7 @@ export default function MyIndipost() {
                     )}
                 </div>
             )}
+            <ShareButtons />
         </div>
     );
 }

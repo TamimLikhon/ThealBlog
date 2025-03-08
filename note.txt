@@ -13,10 +13,44 @@ I created edit option so user can edit a particular blog.
 
 
 we need to create another component so that user can see only his blog.
-create a side navabar where two option will be stay: one is the write blog section, another is my blog section.
+create a side navabar where two option will be stay: one is the write blog section, another is my blog section. done
 
 
 
+How to handle the user blog on the backend
 
 
 another user caan see this - done
+
+
+
+comments/reply
+follow user
+Trending Posts
+Search
+Custom Slugs - done
+Meta Data
+rich-text - done (but more customisation needded-not functional)
+User Dashboard
+Social Media Sharing // done 
+text-to-specch
+Dark Mode
+Scheduled Posts 
+
+
+/follow user---done
+on mongodb user schema - another field name follower, when {signed in} user click on the + icon on. User will get a notification that - {user.email} followed you.
+The person who followed on the profile section ther will a palce where follow list will show. count ++ 
+
+/follow user (advance) 
+a separate page where only followed user post will appear, and a pop up message will show on the notificaiton tab
+task 1 - seperate page for follower(only his post will fetch)
+task 2 - a notificaiton tab where recent follow up user notificaiton will shown.
+
+
+/search---
+post.title as a search feature
+
+/Dark Mode---
+by clicking the button it will turn the bg - white, text-color : black
+again turn the bg - black, text-color: white,
