@@ -16,6 +16,8 @@ export default function Navbar() {
                 <Link href="/createpost" className="hover:text-gray-300 transition"> Write a Blog</Link>
                 <Link href="/myblog" className="hover:text-gray-300 transition">My Blog</Link>
                 <Link href="/feeds" className="hover:text-gray-300 transition">Feeds</Link>
+                <Link href="/following-feeds" className="hover:text-gray-300 transition">Custom Feed</Link>
+
             </div>
 
 

@@ -42,10 +42,12 @@ Scheduled Posts
 on mongodb user schema - another field name follower, when {signed in} user click on the + icon on. User will get a notification that - {user.email} followed you.
 The person who followed on the profile section ther will a palce where follow list will show. count ++ 
 
-/follow user (advance) 
+/follow user (advance) - done
 a separate page where only followed user post will appear, and a pop up message will show on the notificaiton tab
 task 1 - seperate page for follower(only his post will fetch)
 task 2 - a notificaiton tab where recent follow up user notificaiton will shown.
+
+/Like, comments ---
 
 
 /search---
