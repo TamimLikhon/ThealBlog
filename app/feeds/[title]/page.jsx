@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import ShareButtons from "@/app/components/shareButton";
-import { useSession } from "next-auth/react"; // Import authentication
+import { useSession } from "next-auth/react"; 
+import LikeComment from "@/app/components/LikeComment";
 
 export default function PostPage() {
     const { title } = useParams();
@@ -106,6 +107,9 @@ export default function PostPage() {
     <div className="mt-8">
         <ShareButtons />
     </div>
+
+    <LikeComment title={post.title} />
+
 </div>
 
     );

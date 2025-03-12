@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getToken } from "next-auth/jwt";
 import { connectToDatabase } from "@/backend/lib/mongodb";
 import Post from "@/backend/Schema/PostsSchema";
 import User from "@/backend/Schema/userSchema"; 
@@ -8,13 +7,13 @@ import User from "@/backend/Schema/userSchema";
 export async function GET(req) {
     try {
         await connectToDatabase();
+        const token = await getToken({ req });
 
-        const session = await getServerSession(authOptions);
-        if (!session?.user?.email) {
+        if (!token?.email) {
             return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
         }
 
-        const user = await User.findOne({ email: session.user.email });
+        const user = await User.findOne({ email: token.email });
         if (!user || !user.following || user.following.length === 0) {
             return NextResponse.json([]);
         }

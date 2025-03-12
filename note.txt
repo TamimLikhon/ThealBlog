@@ -25,9 +25,7 @@ another user caan see this - done
 
 
 comments/reply
-follow user
 Trending Posts
-Search
 Custom Slugs - done
 Meta Data
 rich-text - done (but more customisation needded-not functional)
@@ -48,11 +46,35 @@ task 1 - seperate page for follower(only his post will fetch)
 task 2 - a notificaiton tab where recent follow up user notificaiton will shown.
 
 /Like, comments ---
+1. add field on postschmea - like, comment, reply
+2. create a component containing like, comment
+3. import it on single post, run a basic condition if user like and comments it will save on backend post collection,
+then we wil fetch it on that page.
+4.anyone with signining in can reply in that post (reply is also a comment, just another person seeing that comment thats it)
+5. if anotheer person comments it will also save to that post collection as reply [ userEmail, comment, date]
+6. then we will again fetch the data and show it on frontend.
+7. user will have the functionality to edit his comment. but if edit done, edited will shown under the comment.
 
 
-/search---
+
+/search---done
 post.title as a search feature
+
+/Meta Data
+
+/User Dashboard-done (more changes needed)
 
 /Dark Mode---
 by clicking the button it will turn the bg - white, text-color : black
 again turn the bg - black, text-color: white,
+
+/Trending Posts
+
+
+
+/text-to-specch
+
+
+/custom-slug - done
+
+/Scheduled-post
