@@ -1,10 +1,13 @@
 "use client";
 
-import ToggleBgButton from "./style/DarkMode";
+import TrendingPostComp from "./components/TrendingPost";
 
 export default function App() {
   return (
-    <ToggleBgButton />
+    <div>
+
+    <TrendingPostComp />
     
+    </div>
 );
 }

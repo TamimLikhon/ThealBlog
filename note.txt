@@ -5,25 +5,6 @@ user can create a post - done
  delete a post
 
 
-
-i created my blog section, where only signed in user blog has been displayed.
-user can individually see a particular post.
-
-I created edit option so user can edit a particular blog.
-
-
-we need to create another component so that user can see only his blog.
-create a side navabar where two option will be stay: one is the write blog section, another is my blog section. done
-
-
-
-How to handle the user blog on the backend
-
-
-another user caan see this - done
-
-
-
 comments/reply
 Trending Posts
 Custom Slugs - done
@@ -35,46 +16,109 @@ text-to-specch
 Dark Mode
 Scheduled Posts 
 
-
-/follow user---done
-on mongodb user schema - another field name follower, when {signed in} user click on the + icon on. User will get a notification that - {user.email} followed you.
-The person who followed on the profile section ther will a palce where follow list will show. count ++ 
-
 /follow user (advance) - done
-a separate page where only followed user post will appear, and a pop up message will show on the notificaiton tab
-task 1 - seperate page for follower(only his post will fetch)
-task 2 - a notificaiton tab where recent follow up user notificaiton will shown.
 
-/Like, comments ---
-1. add field on postschmea - like, comment, reply
-2. create a component containing like, comment
-3. import it on single post, run a basic condition if user like and comments it will save on backend post collection,
-then we wil fetch it on that page.
-4.anyone with signining in can reply in that post (reply is also a comment, just another person seeing that comment thats it)
-5. if anotheer person comments it will also save to that post collection as reply [ userEmail, comment, date]
-6. then we will again fetch the data and show it on frontend.
-7. user will have the functionality to edit his comment. but if edit done, edited will shown under the comment.
-
+/Like, comments --- done (comment, reply more style needed)
 
 
 /search---done
 post.title as a search feature
 
-/Meta Data
-
 /User Dashboard-done (more changes needed)
 
-/Dark Mode---
-by clicking the button it will turn the bg - white, text-color : black
-again turn the bg - black, text-color: white,
-
-/Trending Posts
-
-
+/Trending Posts - done
+1. Most comment and like in last 6h is trending post
 
 /text-to-specch
 
+/text-editable - done (more functional)
 
 /custom-slug - done
 
 /Scheduled-post
+
+/Meta Data
+
+/User Acitve option
+
+/Add picture option
+/featured post
+/suggested post
+
+/listen to podcast
+/category creation - creating new post by selctiing category, then we will fetch it to homepage
+
+/Footer
+
+
+/changes need to do- for better UI
+1. Font 
+2.background white , navbar, footer (black)
+3. Categories fetch post
+4. grding post 1 by 3 
+5.image add
+
+
+
+
+
+
+
+
+/api/reaction/trending - most visited page
+import { connectToDatabase } from "@/backend/lib/mongodb";
+import Post from "@/backend/Schema/PostsSchema";
+
+export async function GET() {
+    try {
+        await connectToDatabase();
+
+        const sixHoursAgo = new Date();
+        sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
+
+        const trendingPost = await Post.aggregate([
+            {
+                $addFields: {
+                    likesArray: { $ifNull: ["$likes", []] },
+                    filteredComments: {
+                        $filter: {
+                            input: "$comments",
+                            as: "comment",
+                            cond: { $gte: ["$$comment.createdAt", sixHoursAgo] }
+                        }
+                    }
+                }
+            },
+            {
+                $addFields: {
+                    engagementScore: {
+                        $add: [{ $size: "$likesArray" }, { $size: { $ifNull: ["$filteredComments", []] } }]
+                    },
+                    latestCommentTime: { $max: "$filteredComments.createdAt" }
+                }
+            },
+            { $sort: { engagementScore: -1, latestCommentTime: -1 } },
+            { $limit: 1 }
+        ]);
+
+        if (!trendingPost.length) {
+            return new Response(JSON.stringify({ message: "No trending post found" }), {
+                status: 404,
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
+        return new Response(JSON.stringify({ post: trendingPost[0] }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+        });
+
+    } catch (error) {
+        console.error("Error fetching trending post:", error);
+        return new Response(JSON.stringify({ error: "Internal Server Error" }), {
+            status: 500,
+            headers: { "Content-Type": "application/json" }
+        });
+    }
+}
+
