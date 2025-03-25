@@ -14,7 +14,6 @@
 // const Post = mongoose.models.Post || mongoose.model("Post", PostSchema);
 // export default Post;
 
-
 import mongoose from "mongoose";
 
 const CommentSchema = new mongoose.Schema(
@@ -39,6 +38,9 @@ const PostSchema = new mongoose.Schema(
     title: { type: String, required: true, unique: true }, // Use title as identifier
     content: { type: String, required: true },
     authorEmail: { type: String, required: true },
+    imageUrl: { type: String, default: "" }, // Store Cloudinary image URL
+    category: { type: String, required: true }, // category field
+    metadata: { type: Object, required: true },   // metadata field
     likes: [{ type: String }], // Array of user emails who liked the post
     comments: [CommentSchema],
   },

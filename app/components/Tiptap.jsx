@@ -60,7 +60,7 @@ const TiptapEditor = ({ content, setContent }) => {
   if (!editor) return null;
 
   return (
-    <div className="max-w-2xl mx-auto p-4 border rounded-md shadow-md bg-white">
+    <div className="max-w-2xl mx-auto p-4  bg-white">
       <MenuBar editor={editor} />
       <div className="mt-4 min-h-[200px] bg-transparent p-2 text-gray-900 text-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
         <EditorContent editor={editor} />

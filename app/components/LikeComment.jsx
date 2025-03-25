@@ -145,9 +145,10 @@ export default function LikeComment({ title }) {
     };
 
     return (
-        <div className="mt-8 rounded-xl bg-white shadow-lg border border-gray-100">
-            {/* Engagement Bar */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <div className="flex justify-center items-center min-h-screen">
+
+<div className="w-2xl text-center rounded-xl bg-white shadow-lg border border-gray-100">
+<div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                 <button 
                     onClick={handleLike} 
                     disabled={isSubmitting}
@@ -163,7 +164,7 @@ export default function LikeComment({ title }) {
             </div>
 
             {/* Add Comment */}
-            <div className="px-6 py-4">
+            <div className="px-2 py-2">
                 <div className="flex space-x-3">
                     <div className="flex-shrink-0">
                         <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-500">
@@ -285,5 +286,9 @@ export default function LikeComment({ title }) {
                 </div>
             )}
         </div>
+
+        </div>
     );
 }
+
+

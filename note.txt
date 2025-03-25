@@ -39,28 +39,25 @@ post.title as a search feature
 
 /Meta Data
 
-/User Acitve option
-
-/Add picture option
+/Add picture option - done - customisation needed
 /featured post
 /suggested post
 
 /listen to podcast
 /category creation - creating new post by selctiing category, then we will fetch it to homepage
 
-/Footer
+/Footer - done
 
 
-/changes need to do- for better UI
-1. Font 
-2.background white , navbar, footer (black)
-3. Categories fetch post
-4. grding post 1 by 3 
-5.image add
+/insteading of importing component directly to homepage, we will fetch data seperately for each segment - trending post, feature post, suggested post
 
 
 
-
+/add image feature - done
+ add category -- create some cateogry prefdifend -
+ 1. category option at the time of creating Posts
+ 2. on user profile add another field name categoreis you like
+ 3. After creating a post on particular category - if user selcted that it will be shown 
 
 
 
@@ -121,4 +118,29 @@ export async function GET() {
         });
     }
 }
+
+
+
+
+home page:
+
+Feature post - 3 post [slider] - Image, title
+Trending Posts
+
+suggested post
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import TiptapEditor from "../components/Tiptap";
+import Upload from "../uploads/page";
 
 export default function CreatePost() {
     const { data: session, status } = useSession();
@@ -67,7 +68,7 @@ export default function CreatePost() {
             ) : (
                 <div className="max-w-2xl w-full bg-white rounded-lg shadow-md p-6">
                     <h1 className="text-3xl font-bold text-center mb-4">Create a New Post</h1>
-
+                    {/* <Upload /> */}
                     <div className="mb-4">
                         <label className="block text-gray-700 font-medium mb-1">Title</label>
                         <input
@@ -82,7 +83,7 @@ export default function CreatePost() {
                     </div>
 
                     <div className="mt-10">
-                        <TiptapEditor content={content} setContent={setContent} />
+                        <TiptapEditor content={content} setContent={setContent} className="w-2xl" />
                     </div>
 
                     {error && <p className="text-red-500 text-sm mb-3">{error}</p>}

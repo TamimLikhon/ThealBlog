@@ -49,16 +49,16 @@ const ShareButtons = () => {
   };
 
   return (
-    <div className="relative mt-10">
+    <div className="relative">
       <div className="flex flex-wrap justify-center gap-4">
-        <p className="w-full text-center text-ms font-bold">Share on social media</p>
+        <p className="w-full text-center text-ms text-white font-bold font-boldfont-bold">Share on social media</p>
 
         {/* Facebook */}
         <div className="flex flex-col items-center">
           <FacebookShareButton url={shareUrl} quote={`Check this out: ${shareUrl}`} onClick={() => handleShare("facebook")}>
             <FacebookIcon size={42} className="rounded-3xl" />
           </FacebookShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.facebook} Shares</span>
+          <span className="text-xs text-white font-bold">{shareCounts.facebook} Shares</span>
         </div>
 
         {/* WhatsApp */}
@@ -66,7 +66,7 @@ const ShareButtons = () => {
           <WhatsappShareButton url={shareUrl} onClick={() => handleShare("whatsapp")}>
             <WhatsappIcon size={42} className="rounded-3xl" />
           </WhatsappShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.whatsapp} Shares</span>
+          <span className="text-xs text-white font-bold ">{shareCounts.whatsapp} Shares</span>
         </div>
 
         {/* Reddit */}
@@ -74,7 +74,7 @@ const ShareButtons = () => {
           <RedditShareButton url={shareUrl} onClick={() => handleShare("reddit")}>
             <RedditIcon size={42} className="rounded-3xl" />
           </RedditShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.reddit} Shares</span>
+          <span className="text-xs text-white font-bold">{shareCounts.reddit} Shares</span>
         </div>
 
         {/* Pinterest */}
@@ -82,7 +82,7 @@ const ShareButtons = () => {
           <PinterestShareButton url={shareUrl} onClick={() => handleShare("pinterest")}>
             <PinterestIcon size={42} className="rounded-3xl" />
           </PinterestShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.pinterest} Shares</span>
+          <span className="text-xs text-white font-bold">{shareCounts.pinterest} Shares</span>
         </div>
 
         {/* Twitter */}
@@ -90,7 +90,7 @@ const ShareButtons = () => {
           <TwitterShareButton url={shareUrl} onClick={() => handleShare("twitter")}>
             <TwitterIcon size={42} className="rounded-3xl" />
           </TwitterShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.twitter} Shares</span>
+          <span className="text-xs text-white font-bold">{shareCounts.twitter} Shares</span>
         </div>
 
         {/* LinkedIn */}
@@ -98,7 +98,7 @@ const ShareButtons = () => {
           <LinkedinShareButton url={shareUrl} onClick={() => handleShare("linkedin")}>
             <LinkedinIcon size={42} className="rounded-3xl" />
           </LinkedinShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.linkedin} Shares</span>
+          <span className="text-xs text-white font-bold">{shareCounts.linkedin} Shares</span>
         </div>
 
         {/* Threads */}
@@ -106,21 +106,20 @@ const ShareButtons = () => {
           <ThreadsShareButton url={shareUrl} onClick={() => handleShare("threads")}>
             <ThreadsIcon size={42} className="rounded-3xl" />
           </ThreadsShareButton>
-          <span className="text-xs text-gray-600">{shareCounts.threads} Shares</span>
+          <span className="text-xs text-white font-bold">{shareCounts.threads} Shares</span>
         </div>
 
         {/* Copy Link Button */}
         <div className="flex flex-col items-center">
-          <button onClick={copyToClipboard} className="p-2 bg-gray-600 text-white rounded">
+          <button onClick={copyToClipboard} className="p-2 bg-gray-600 text-white font-bold">
             <Link />
           </button>
-          <span className="text-xs text-gray-600">Copy Link</span>
+          <span className="text-xs text-white font-bold">Copy Link</span>
         </div>
       </div>
 
-      {/* Popup Notification */}
       {copied && (
-        <div className="absolute top-[-40px] left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm px-4 py-2 rounded-lg shadow-md">
+        <div className="absolute top-[-40px] left-1/2 transform -translate-x-1/2 bg-gray-800 text-white font-bold font-boldtext-sm px-4 py-2 rounded-lg shadow-md">
           URL copied to clipboard
         </div>
       )}

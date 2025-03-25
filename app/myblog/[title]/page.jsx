@@ -66,7 +66,7 @@ export default function MyIndipost() {
     if (!post) return <p>Post not found.</p>;
 
     return (
-        <div className="max-w-2xl mx-auto p-4">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6">
             {isEditing ? (
                 <input
                     type="text"
@@ -75,16 +75,16 @@ export default function MyIndipost() {
                     className="w-full text-3xl font-bold mb-2 p-2 border rounded"
                 />
             ) : (
-                <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
+                <h1 className="text-3xl text-white font-bold mb-2">{post.title}</h1>
             )}
-            <p className="text-sm text-gray-500 mb-4">
+            <p className="text-sm text-white mb-4">
                 Author: {post.authorEmail} | Date: {new Date(post.createdAt).toLocaleDateString()} | updated: {new Date(post.updatedAt).toLocaleDateString()}
             </p>
             {isEditing ? (
                                         <TiptapEditor content={newContent} setContent={setNewContent} />
 
             ) : (
-                <p className="text-lg">{post.content}</p>
+                <p className="text-lg text-white">{post.content}</p>
             )}
             {session?.user?.email === post.authorEmail && (
                 <div className="mt-4">

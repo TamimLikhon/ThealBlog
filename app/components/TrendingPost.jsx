@@ -4,12 +4,10 @@ import {MessageCircle, Calendar, User, ChevronRight } from 'lucide-react';
 
 const TrendingPosts = () => {
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchCommentedPosts = async () => {
     try {
-      setLoading(true);
       setError(null);
       
       const response = await fetch('/api/reaction/trending');
@@ -23,9 +21,7 @@ const TrendingPosts = () => {
     } catch (err) {
       setError('Failed to fetch posts: ' + err.message);
       console.error('Error fetching posts:', err);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
 
@@ -51,10 +47,9 @@ const TrendingPosts = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      {/* Header with trending icon */}
-      <div className="flex items-center mb-8 bg-gradient-to-r from-purple-600 to-blue-500 text-white p-4 rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold">Trending Posts</h1>
+    <div className="relative max-w-7xl mx-auto">
+      <div className="flex items-center mb-2">
+        <h1 className="text-2xl font-bold">Trending Posts</h1>
       </div>
       
       {/* Error message */}
@@ -71,16 +66,9 @@ const TrendingPosts = () => {
         </div>
       )}
       
-      {/* Loading state with animation */}
-      {loading && (
-        <div className="flex justify-center items-center p-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          <p className="ml-3 text-lg text-gray-600">Loading trending posts...</p>
-        </div>
-      )}
       
       {/* No posts found */}
-      {!loading && posts.length === 0 && (
+      {posts.length === 0 && (
         <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg shadow text-center">
           <p className="text-lg text-gray-700">No trending posts found with your search criteria.</p>
           <button 

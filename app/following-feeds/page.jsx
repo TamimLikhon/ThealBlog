@@ -2,8 +2,12 @@
 import { useState, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
+import { Calendar, User, ChevronRight, Loader } from "lucide-react";
+import LikeComment from "../components/LikeComment";
+import { useParams } from "next/navigation";
 
 export default function CustomFeeds() {
+  const  {title} = useParams();
     const { data: session } = useSession();
     const [ffeeds, setFfeeds] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,91 +30,76 @@ export default function CustomFeeds() {
         fetchData();
     }, [session]);
 
+    if (loading){
+        
+      return (
+          <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
+          </div>
+      );
+  }
+
     return (
-<div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-10 px-4 sm:px-6">
-  <div className="max-w-3xl mx-auto">
+<div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
     {!session ? (
-      <div className="rounded-xl bg-white shadow-xl overflow-hidden">
-        <div className="bg-indigo-600 px-6 py-12 text-center">
-          <h1 className="text-3xl font-bold text-white mb-3">Account Required</h1>
-          <p className="text-indigo-100 text-lg mb-8">Sign in to access your personalized content feed</p>
-          <button 
-            onClick={() => signIn()} 
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-md transition-all duration-200">
-            Sign In to Continue
+      <div className="rounded-xl overflow-hidden bg-gray-800 ">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 px-10 py-16 text-center">
+          <h1 className="text-4xl font-extrabold text-white mb-4">Unlock Exclusive Content</h1>
+          <p className="text-gray-200 text-lg mb-8 max-w-lg mx-auto">
+            Sign in to explore your personalized premium feed.
+          </p>
+          <button
+            onClick={() => signIn()}
+            className="px-6 py-3 text-lg font-semibold rounded-lg text-white bg-white/20 hover:bg-white/30 border border-white/10 transition-all duration-200"
+          >
+            Sign In
           </button>
         </div>
       </div>
     ) : (
-      <div className="bg-white rounded-xl shadow-xl overflow-hidden">
-        <div className="border-b border-gray-200 px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-800">Following Feed</h1>
-            <span className="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-medium">
-              {ffeeds.length} Posts
-            </span>
-          </div>
+      <div className="p-6">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold text-white">Following Feeds</h1>
         </div>
-
-        {loading ? (
-          <div className="flex justify-center items-center py-16">
-            <div className="animate-pulse flex flex-col items-center">
-              <div className="h-12 w-12 rounded-full bg-indigo-200 mb-3"></div>
-              <div className="h-4 w-32 bg-indigo-100 rounded"></div>
-              <p className="mt-4 text-gray-500">Retrieving your content...</p>
-            </div>
-          </div>
-        ) : ffeeds.length === 0 ? (
-          <div className="py-16 px-6 text-center">
-            <svg className="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-            </svg>
-            <h3 className="mt-4 text-lg font-medium text-gray-900">No content in your feed</h3>
-            <p className="mt-2 text-gray-500 max-w-md mx-auto">Follow more users to see their posts appear in your personalized feed.</p>
-          </div>
-        ) : (
-          <div className="divide-y divide-gray-200">
-            {ffeeds.map((post) => (
-              <div key={post._id} className="hover:bg-gray-50 transition-colors duration-150">
-                <div className="px-6 py-5">
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      <div className="h-10 w-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold">
-                        {post.authorEmail.charAt(0).toUpperCase()}
-                      </div>
-                    </div>
-                    <div className="ml-4 flex-1">
-                      <Link href={`/feeds/${encodeURIComponent(post.title)}`} className="block">
-                        <h2 className="text-xl font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-150 group-hover:text-indigo-600">
-                          {post.title}
-                        </h2>
-                      </Link>
-                      <div className="mt-1 flex items-center text-sm text-gray-500">
-                        <span className="truncate">{post.authorEmail}</span>
-                        <span className="mx-1">•</span>
-                        <time dateTime={post.createdAt}>
-                          {new Date(post.createdAt).toLocaleDateString('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric'
-                          })}
-                        </time>
-                      </div>
-                    </div>
-                    <div className="ml-2">
-                      <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
+        <div className="space-y-6">
+          {ffeeds.map((post) => (
+            <div key={post._id} className="p-6">
+              <div className="px-6 py-4 flex items-start">
+                <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                  {post.authorEmail.charAt(0).toUpperCase()}
+                </div>
+                <div className="ml-5 flex-1">
+                  <Link href={`/feeds/${encodeURIComponent(post.title)}`} className="block group">
+                    <h2 className="text-2xl font-semibold text-white hover:text-blue-300 transition-colors duration-150">
+                      {post.title}
+                    </h2>
+                    </Link>
+                  <div className="mt-2 flex items-center text-sm text-white">
+                    <User className="h-4 w-4 mr-1.5" />
+                    <span>{post.authorEmail}</span>
+                    <span className="mx-2">•</span>
+                    <Calendar className="h-4 w-4 mr-1.5" />
+                    <time dateTime={post.createdAt}>
+                      {new Date(post.createdAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </time>
                   </div>
+                  <p className="text-gray-300 mt-5">{post.content}</p>
+
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+              <LikeComment title={post.title} />
+            </div>
+          ))}
+        </div>
       </div>
     )}
   </div>
 </div>
+
     );
 }
