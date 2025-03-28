@@ -25,6 +25,7 @@ const authOptions = NextAuth({
                 return {
                     id: user._id,
                     email: user.email,
+                    role: user.role, // ← Added new
                     firstname: user.firstname,
                     lastname: user.lastname,
                     phonenumber: user.phonenumber,
@@ -46,6 +47,7 @@ const authOptions = NextAuth({
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
+                token.role = user.role; // ← Added new
                 token.firstname = user.firstname;
                 token.lastname = user.lastname;
                 token.phonenumber = user.phonenumber;
@@ -58,6 +60,7 @@ const authOptions = NextAuth({
         },
         async session({ session, token }) {
             session.user.id = token.id;
+            session.user.role = token.role; // added new
             session.user.firstname = token.firstname;
             session.user.lastname = token.lastname;
             session.user.phonenumber = token.phonenumber;
@@ -67,6 +70,9 @@ const authOptions = NextAuth({
             session.user.zipcode = token.zipcode;
             return session;
         }
+    },
+    pages:{
+        signIn: "/auth/admin"
     }
 });
 

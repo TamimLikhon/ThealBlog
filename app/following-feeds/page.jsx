@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Calendar, User, ChevronRight, Loader } from "lucide-react";
 import LikeComment from "../components/LikeComment";
 import { useParams } from "next/navigation";
-
+import Image from "next/image";
 export default function CustomFeeds() {
   const  {title} = useParams();
     const { data: session } = useSession();
@@ -59,9 +59,6 @@ export default function CustomFeeds() {
       </div>
     ) : (
       <div className="p-6">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold text-white">Following Feeds</h1>
-        </div>
         <div className="space-y-6">
           {ffeeds.map((post) => (
             <div key={post._id} className="p-6">
@@ -88,6 +85,16 @@ export default function CustomFeeds() {
                       })}
                     </time>
                   </div>
+                  <Image
+                src={post.imageUrl}
+                alt={post.imageUrl}
+                className="w-fit rounded-2xl shadow-2xl mx-auto mb-5 mt-5"
+                width={800}
+                height={500}
+                priority={true}
+                quality={75}
+            />
+
                   <p className="text-gray-300 mt-5">{post.content}</p>
 
                 </div>

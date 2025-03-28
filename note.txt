@@ -44,7 +44,6 @@ post.title as a search feature
 /suggested post
 
 /listen to podcast
-/category creation - creating new post by selctiing category, then we will fetch it to homepage
 
 /Footer - done
 
@@ -54,7 +53,7 @@ post.title as a search feature
 
 
 /add image feature - done
- add category -- create some cateogry prefdifend -
+ add category -- create some cateogry prefdifend - done
  1. category option at the time of creating Posts
  2. on user profile add another field name categoreis you like
  3. After creating a post on particular category - if user selcted that it will be shown 
@@ -119,28 +118,12 @@ export async function GET() {
     }
 }
 
+/admin panel - 26.0.25 failed
+1. prefdifend userSchema - for admin
+2.Sign in through auth
+3.admin panel
 
 
-
-home page:
-
-Feature post - 3 post [slider] - Image, title
-Trending Posts
-
-suggested post
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/30March
+UserProfile
+UI

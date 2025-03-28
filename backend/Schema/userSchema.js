@@ -18,12 +18,14 @@ const userSchema = new mongoose.Schema(
     isVerified: { type: Boolean, default: false },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
+    role: { type: String },
 
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
+
 
 const User = mongoose.models.Authuser || mongoose.model("Authuser", userSchema);
 export default User;
