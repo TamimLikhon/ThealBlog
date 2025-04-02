@@ -2,61 +2,107 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { LogOut, User, UserCircle } from "lucide-react"; // Icons for better UI
+import { LogOut, User, UserCircle } from "lucide-react"; 
+import Image from "next/image";
 
 export default function Profile() {
     const { data: session } = useSession();
-    const [isOpen, setIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
+    const [userImage, setImgURL] = useState("");
+    const [isHovering, setIsHovering] = useState(false);
+    const timeoutRef = useRef(null);
 
-    // Close dropdown when clicking outside
     useEffect(() => {
-        function handleClickOutside(event) {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setIsOpen(false);
+        if (!session?.user?.email) return;
+
+        const fetchUserImage = async () => {
+            try {
+                const res = await fetch(`/api/auth/image?email=${session.user.email}`);
+                const data = await res.json();
+                setImgURL(data);
+            } catch (error) {
+                console.error("Error fetching image:", error);
             }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+        };
+
+        fetchUserImage();
+    }, [session?.user?.email]);
+
+    const handleMouseEnter = () => {
+        clearTimeout(timeoutRef.current);
+        setIsHovering(true);
+    };
+
+    const handleMouseLeave = () => {
+        timeoutRef.current = setTimeout(() => {
+            setIsHovering(false);
+        }, 300); // Small delay for better UX
+    };
 
     return (
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative">
             {session ? (
-                <div>
-                    <div
-                        className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold cursor-pointer transition hover:opacity-80"
-                        onClick={() => setIsOpen(!isOpen)}
-                    >
-                        {session.user?.email?.charAt(0).toUpperCase()} {/* First letter of email */}
+                <div 
+                    className="relative"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <div className="cursor-pointer transition duration-300 hover:opacity-90">
+                        {userImage?.imageUrl ? (
+                            <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-gray-200 shadow-md">
+                                <Image
+                                    src={userImage.imageUrl}
+                                    alt="User profile"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+                        ) : (
+                            <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center shadow-md">
+                                <UserCircle size={24} className="text-gray-500" />
+                            </div>
+                        )}
                     </div>
 
-                    {/* Dropdown Menu */}
-                    {isOpen && (
-                        <div className="absolute top-full right-0 mt-2 w-56 bg-white shadow-lg rounded-lg p-3">
-                            <p className="text-xs text-gray-500 mb-2">Signed in as</p>
-                            <p className="text-sm font-semibold text-gray-900 truncate">{session.user?.email}</p>
-                            <hr className="my-2" />
+                    {isHovering && (
+                        <div 
+                            className="absolute top-full right-0 mt-2 w-64 bg-white shadow-xl rounded-lg p-4 border border-gray-100 z-50 transition-all duration-200 transform origin-top-right"
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                        >
+                            <div className="space-y-3">
+                                <div>
+                                    <p className="text-xs text-gray-500">Signed in as</p>
+                                    <p className="text-sm font-medium text-gray-800 truncate">{session.user?.email}</p>
+                                </div>
+                                
+                                <div className="h-px bg-gray-200" />
+                                
+                                <Link 
+                                    href="/userProfile" 
+                                    className="flex items-center gap-2 text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md transition duration-150 group"
+                                >
+                                    <User size={16} className="text-gray-500 group-hover:text-blue-500" /> 
+                                    <p className="group-hover:text-blue-600 text-sm">Your Profile</p>
+                                </Link>
 
-                            <Link 
-                                href="/userProfile" 
-                                className="flex items-center gap-2 text-gray-700 hover:bg-gray-100 px-3 py-2 rounded transition"
-                            >
-                                <User size={16} /> Your Profile
-                            </Link>
-
-                            <button 
-                                className="flex items-center gap-2 text-red-500 hover:bg-red-100 px-3 py-2 rounded transition w-full text-left"
-                                onClick={() => signOut()}
-                            >
-                                <LogOut size={16} /> Sign out
-                            </button>
+                                <button 
+                                    className="flex items-center gap-2 text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md transition duration-150 w-full text-left group"
+                                    onClick={() => signOut()}
+                                >
+                                    <LogOut size={16} className="text-gray-500 group-hover:text-red-500" /> 
+                                    <p className="group-hover:text-red-600 text-sm">Sign out</p>
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>
             ) : (
-                <Link href="/auth/login" className="text-white hover:text-blue-400 transition">
-                    <UserCircle size={32} /> {/* Display UserCircle Icon */}
+                <Link 
+                    href="/auth/login" 
+                    className="flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 transition duration-150"
+                >
+                    <UserCircle size={20} className="mr-2" />
+                    Sign In
                 </Link>
             )}
         </div>

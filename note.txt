@@ -127,3 +127,11 @@ export async function GET() {
 /30March
 UserProfile
 UI
+                    <div className="relative h-50 w-50 overflow-hidden rounded-full ring-2 ring-gray-200 shadow-md">
+                      <Image
+                        src={userimage.imageUrl}
+                        alt="User profile"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>

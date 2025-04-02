@@ -6,12 +6,12 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     phonenumber: { type: Number, required: true, unique: true },
     firstname: { type: String, required: true },
+    imageUrl: { type: String, default: "" }, // Store Cloudinary image URL
     lastname: { type: String, required: true }, 
     address: { type: String, required: true },
     city: { type: String, required: true },
     district: { type: String, required: true },
     zipcode: { type: Number, required: true }, 
-
     following: { type: [String], default: [] }, // Store emails of followed users
     followers: { type: [String], default: [] }, // Store emails of followers
 

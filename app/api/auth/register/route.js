@@ -6,9 +6,9 @@ export async function POST(req) {
     try {
         await connectToDatabase(); // Connect to MongoDB
 
-        const { email, password, phonenumber, firstname, lastname, address, city, district, zipcode } = await req.json();
+        const { email, password, phonenumber, firstname, lastname, address, city, district, zipcode, imageUrl } = await req.json();
 
-        if (!email || !password || !phonenumber || !firstname || !lastname || !address || !city || !district || !zipcode) {
+        if (!email || !password || !phonenumber || !firstname || !lastname || !address || !city || !district || !zipcode || !imageUrl) {
             return new Response(JSON.stringify({ error: "All Fields are required" }), {
                 status: 400,
                 headers: { "Content-Type": "application/json" },
@@ -28,7 +28,7 @@ export async function POST(req) {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        const newUser = new User({ email, password: hashedPassword, phonenumber, firstname, lastname, address, city, district, zipcode });
+        const newUser = new User({ email, password: hashedPassword, phonenumber, firstname, lastname, address, city, district, zipcode, imageUrl });
         await newUser.save();
 
         return new Response(JSON.stringify({ message: "User registered successfully" }), {
