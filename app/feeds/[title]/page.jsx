@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import LikeComment from "@/app/components/LikeComment";
 import Image from "next/image";
 import DOMPurify from "dompurify";
+import TrackVisitor from "@/app/components/visitor/trackvisitor";
 
 export default function PostPage() {
     const { title } = useParams();

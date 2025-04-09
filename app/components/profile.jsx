@@ -1,15 +1,14 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { LogOut, User, UserCircle } from "lucide-react"; 
+import { LogOut, User, UserCircle } from "lucide-react";
 import Image from "next/image";
 
 export default function Profile() {
     const { data: session } = useSession();
     const [userImage, setImgURL] = useState("");
-    const [isHovering, setIsHovering] = useState(false);
-    const timeoutRef = useRef(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         if (!session?.user?.email) return;
@@ -27,28 +26,14 @@ export default function Profile() {
         fetchUserImage();
     }, [session?.user?.email]);
 
-    const handleMouseEnter = () => {
-        clearTimeout(timeoutRef.current);
-        setIsHovering(true);
-    };
-
-    const handleMouseLeave = () => {
-        timeoutRef.current = setTimeout(() => {
-            setIsHovering(false);
-        }, 300); // Small delay for better UX
-    };
-
     return (
-        <div className="relative">
+        <div className="relative  dark:bg-gray-900 px-4">
             {session ? (
-                <div 
-                    className="relative"
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                >
+                <div className="flex flex-col md:flex-row items-center gap-4 py-4 relative group">
+                    {/* Profile Image */}
                     <div className="cursor-pointer transition duration-300 hover:opacity-90">
                         {userImage?.imageUrl ? (
-                            <div className="relative h-10 w-10 overflow-hidden rounded-full ring-2 ring-gray-200 shadow-md">
+                            <div className="relative h-12 w-12 overflow-hidden rounded-full ring-2 ring-gray-200 shadow-md">
                                 <Image
                                     src={userImage.imageUrl}
                                     alt="User profile"
@@ -57,54 +42,54 @@ export default function Profile() {
                                 />
                             </div>
                         ) : (
-                            <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center shadow-md">
+                            <div className="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center shadow-md">
                                 <UserCircle size={24} className="text-gray-500" />
                             </div>
                         )}
                     </div>
-
-                    {isHovering && (
-                        <div 
-                            className="absolute top-full right-0 mt-2 w-64 bg-white shadow-xl rounded-lg p-4 border border-gray-100 z-50 transition-all duration-200 transform origin-top-right"
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                        >
-                            <div className="space-y-3">
-                                <div>
-                                    <p className="text-xs text-gray-500">Signed in as</p>
-                                    <p className="text-sm font-medium text-gray-800 truncate">{session.user?.email}</p>
-                                </div>
-                                
-                                <div className="h-px bg-gray-200" />
-                                
-                                <Link 
-                                    href="/userProfile" 
-                                    className="flex items-center gap-2 text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md transition duration-150 group"
-                                >
-                                    <User size={16} className="text-gray-500 group-hover:text-blue-500" /> 
-                                    <p className="group-hover:text-blue-600 text-sm">Your Profile</p>
-                                </Link>
-
-                                <button 
-                                    className="flex items-center gap-2 text-gray-700 hover:bg-gray-50 px-3 py-2 rounded-md transition duration-150 w-full text-left group"
-                                    onClick={() => signOut()}
-                                >
-                                    <LogOut size={16} className="text-gray-500 group-hover:text-red-500" /> 
-                                    <p className="group-hover:text-red-600 text-sm">Sign out</p>
-                                </button>
-                            </div>
+    
+                    {/* Hidden content on desktop, visible on mobile */}
+                    <div
+                        className={`
+                            flex-col md:absolute md:top-14 md:left-0 md:bg-gray-900 md:rounded-md md:shadow-lg md:p-4
+                            md:opacity-0 md:invisible md:group-hover:visible md:group-hover:opacity-100
+                            transition-all duration-300 ease-in-out
+                            flex items-center md:items-start gap-2 
+                        `}
+                    >
+                        <p className="text-sm text-white shadow-md shadow-amber-200">
+                            {session.user?.email}
+                        </p>
+    
+                        <div className="flex flex-col md:flex-row gap-2 mt-3 ">
+                            <Link
+                                href="/userProfile"
+                                className="flex items-center gap-1  hover:bg-blue-400 text-black px-3 py-2 rounded-md transition duration-150 group bg-gray-800 shadow-md hover:shadow-lg"
+                            >
+                                <User size={16} className="text-white" />
+                                <p className=" text-white text-sm">Profile</p>
+                            </Link>
+    
+                            <button
+                                className="flex items-center text-black hover:bg-red-500 px-3 py-2 rounded-md transition duration-150 group bg-gray-800 shadow-md hover:shadow-lg"
+                                onClick={() => signOut()}
+                            >
+                                <LogOut size={16} className="text-white"/>
+                                <p className="text-sm text-white">Logout</p>
+                            </button>
                         </div>
-                    )}
+                    </div>
                 </div>
             ) : (
-                <Link 
-                    href="/auth/login" 
-                    className="flex items-center px-4 py-2 text-gray-700 hover:text-blue-600 transition duration-150"
+                <Link
+                    href="/auth/login"
+                    className="flex items-center px-4 py-2 text-white "
                 >
-                    <UserCircle size={20} className="mr-2" />
-                    Sign In
+                    <UserCircle size={20} className="mr-2 " />
+                    <p className="text-ms text-white hover:text-blue-600 transition duration-150">Sign in</p>
                 </Link>
             )}
         </div>
     );
+    
 }

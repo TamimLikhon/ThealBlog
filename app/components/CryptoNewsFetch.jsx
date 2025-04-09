@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -31,94 +32,93 @@ export default function CryptoNewsFetch() {
     return text.substr(0, maxLength) + "...";
   };
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 w-48 mb-4"></div>
-          <div className="h-64 bg-gray-200 w-full"></div>
+      <div className="flex justify-center items-center h-48 sm:h-64">
+        <div className="animate-pulse space-y-4">
+          <div className="h-6 sm:h-8 bg-gray-200 w-32 sm:w-48 rounded"></div>
+          <div className="h-40 sm:h-64 bg-gray-200 w-full sm:w-80 rounded"></div>
         </div>
       </div>
     );
+  }
 
-  if (error)
-    return <p className="text-center text-red-500 text-lg">Error: {error}</p>;
+  if (error) {
+    return <p className="text-center text-red-500 text-base sm:text-lg">Error: {error}</p>;
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-left border-b-2 border-black pb-4 mb-8">
+    <div className="w-full px-4 sm:px-6 py-6 sm:py-8">
+      <h1 className="text-xl sm:text-2xl font-bold text-left border-b-2 border-black pb-3 sm:pb-4 mb-6 sm:mb-8">
         Voice of Crypto
       </h1>
 
       {posts.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Featured Post */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="md:col-span-2 space-y-4 sm:space-y-6">
             <div className="bg-white border-2 border-black rounded-lg overflow-hidden">
               <div className="relative pt-[56.25%]">
-                {" "}
-                {/* 16:9 Aspect Ratio */}
                 <Image
                   src={posts[0].imageUrl}
                   alt={posts[0].title}
                   fill
                   className="absolute inset-0 w-full h-full object-cover"
                   priority={true}
-                  quality={90}
+                  quality={85}
                 />
               </div>
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-4">
-                  <Link
-                    href={`/feeds/${encodeURIComponent(posts[0].title)}`}
-                    className="hover:opacity-70 transition-opacity"
-                  >
+              <div className="p-4 sm:p-6">
+                <Link
+                  href={`/feeds/${encodeURIComponent(posts[0].title)}`}
+                  className="hover:opacity-70 transition-opacity block"
+                >
+                  <h2 className="text-lg sm:text-2xl font-semibold mb-2 sm:mb-4 line-clamp-2">
                     {posts[0].title}
-                  </Link>
-                </h2>
-                <p className="text-base opacity-90">
-                  {truncateText(posts[0].metadata, 250)}
-                </p>
+                  </h2>
+                  <p className="text-gray-800 font-medium text-sm sm:text-base">
+                    {truncateText(posts[0].metadata, 200)}
+                  </p>
+                </Link>
               </div>
             </div>
           </div>
 
-          {/* Side Posts */}
-          <div className="space-y-6">
+          {/* Secondary Posts */}
+          <div className="space-y-4 sm:space-y-6">
             {posts.slice(1, 3).map((post) => (
               <div
                 key={post._id}
-                className="bg-white border-2 border-black rounded-lg p-2"
+                className="bg-white border-2 border-black rounded-lg overflow-hidden"
               >
                 <div className="relative pt-[56.25%]">
-                  {" "}
-                  {/* 16:9 Aspect Ratio */}
                   <Image
                     src={post.imageUrl}
                     alt={post.title}
                     fill
                     className="absolute inset-0 w-full h-full object-cover"
-                    priority={true}
-                    quality={90}
+                    quality={85}
                   />
                 </div>
-                <h2 className="text-xl font-bold mb-3">
+                <div className="p-3 sm:p-4">
                   <Link
                     href={`/feeds/${encodeURIComponent(post.title)}`}
-                    className="hover:opacity-70 transition-opacity"
+                    className="hover:opacity-70 transition-opacity block"
                   >
-                    {post.title}
+                    <h2 className="text-base sm:text-xl font-semibold mt-2 sm:mt-3 mb-2 sm:mb-3 line-clamp-2">
+                      {post.title}
+                    </h2>
+                    <p className="text-gray-800 font-medium text-xs sm:text-sm">
+                      {truncateText(post.metadata)}
+                    </p>
                   </Link>
-                </h2>
-                <p className="text-base opacity-90">
-                  {truncateText(post.metadata)}
-                </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       ) : (
-        <p className="text-center text-gray-600">
+        <p className="text-center text-gray-600 text-base sm:text-lg">
           No Crypto news available at the moment.
         </p>
       )}

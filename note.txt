@@ -29,8 +29,6 @@ post.title as a search feature
 /Trending Posts - done
 1. Most comment and like in last 6h is trending post
 
-/text-to-specch
-
 /text-editable - done (more functional)
 
 /custom-slug - done
@@ -127,11 +125,47 @@ export async function GET() {
 /30March
 UserProfile
 UI
-                    <div className="relative h-50 w-50 overflow-hidden rounded-full ring-2 ring-gray-200 shadow-md">
-                      <Image
-                        src={userimage.imageUrl}
-                        alt="User profile"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+
+
+
+03.04.25 - on the loading period whole page should be fetched
+promise.all (home, profile)
+
+04.04.25 - font, text color(home) page
+Myblog, feeds, customfeed - bg-white, font, color black
+feeds - vertical all post shown at once, add read more, add comment box
+custom feed - bg-white,font-black, font, gap between post and comment reduce, design it like facebook
+Write a blog - A more customisable writing interface.
+
+1.personal Dashboard : how many visitor seen your profile
+how many likes you got, how many comments 
+
+2.notification bar
+
+
+mobile optimized -
+home | Featurepost, trending, ainews, crypto,
+ navbar, searchcomp, feed, following feed, signin
+
+Dashboard-profile Dashboard
+feed - add comment section, 
+createpost - make to more advance, 
+indiviudal post - fit to screen
+
+
+
+to track data perfectly -signin is essential
+
+
+if I can specifiy only the url localhost:3000/feeds/[title] - this will reduce the req
+all the blog leads to localhost:3000/feeds/[title]
+all blogs under the api - api/fetchpost
+currently I am sending the url to backend, instead of that send title
+then connect the postschema with trackvisitschmea(contains title) 
+
+then run a basic filter - trackvisit title.findone("authoremail") {
+   if signed in email == authoremail{
+        then track the time {opening vs closing tab} - store in visitimespan
+    }
+}
+#crcuial part - read time,

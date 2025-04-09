@@ -2,6 +2,7 @@ import "./globals.css";
 import SessionWrapper from "./components/sessionWrapper";
 import Navbar from "./components/Navbar";
 import Footer from "./components/footer";
+import TrackVisitor from "./components/visitor/trackvisitor";
 
 
 export default function RootLayout({ children }) {
@@ -9,6 +10,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <SessionWrapper>
+        <TrackVisitor />
           <Navbar />
         {children}
         <Footer />
