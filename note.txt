@@ -154,18 +154,10 @@ indiviudal post - fit to screen
 
 
 
-to track data perfectly -signin is essential
+signed-in user data fetched succcesfully
+but backend duplicate Response
+add the total time in my post section
 
+#crcuial part - read time 10.04.25 done 
 
-if I can specifiy only the url localhost:3000/feeds/[title] - this will reduce the req
-all the blog leads to localhost:3000/feeds/[title]
-all blogs under the api - api/fetchpost
-currently I am sending the url to backend, instead of that send title
-then connect the postschema with trackvisitschmea(contains title) 
-
-then run a basic filter - trackvisit title.findone("authoremail") {
-   if signed in email == authoremail{
-        then track the time {opening vs closing tab} - store in visitimespan
-    }
-}
-#crcuial part - read time,
+Change the SignIn comp to nextauth SignIn(); TODO

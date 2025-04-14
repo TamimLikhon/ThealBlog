@@ -41,7 +41,7 @@ export default function Feeds() {
 
       <div className="flex justify-center px-6 py-8">
         <div className="w-full max-w-4xl">
-          {!session ? (
+          {/* {!session ? (
             <div className="flex flex-col justify-center items-center text-center p-8 bg-white rounded-lg shadow-md max-w-md mx-auto -mt-20">
               <p className="text-gray-800 text-lg mb-6">Please sign in to view the latest feed.</p>
               <button
@@ -52,7 +52,7 @@ export default function Feeds() {
               </button>
             </div>
           ) : (
-            <>
+            <> */}
               {posts.length === 0 ? (
                 <div className="text-center py-20 px-6 bg-white rounded-lg shadow-md w-full max-w-3xl mx-auto">
                   <h2 className="text-2xl font-semibold mb-3 text-gray-800">
@@ -95,8 +95,8 @@ export default function Feeds() {
                   ))}
                 </div>
               )}
-            </>
-          )}
+            {/* </>
+          )} */}
         </div>
       </div>
     </div>

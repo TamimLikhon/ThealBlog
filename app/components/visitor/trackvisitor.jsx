@@ -1,49 +1,40 @@
-"use client";
+'use client';
+
 import { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function TrackVisitor() {
-  const startTimestamp = Date.now();
-
-  const getOrCreateCookie = (name, expiryHours = 24) => {
-    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    if (match) return match[2];
-
-    const id = uuidv4();
-    const expires = new Date(Date.now() + expiryHours * 60 * 60 * 1000).toUTCString();
-    document.cookie = `${name}=${id}; expires=${expires}; path=/`;
-    return id;
-  };
-
+export default function VisitorTracker({ title, authorEmail }) {
   useEffect(() => {
-    const sendVisitorData = async () => {
-      const sessionId = getOrCreateCookie('sessionId', 24);
-      const endTimestamp = Date.now();
+    let sessionId = sessionStorage.getItem('sessionId');
+    if (!sessionId) {
+      sessionId = uuidv4();
+      sessionStorage.setItem('sessionId', sessionId);
+    }
 
-      try {
-        const res = await fetch('/api/visitorapi/trackvisitor', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            url: window.location.href,
-            sessionId,
-            userAgent: navigator.userAgent,
-            startTimestamp,
-            endTimestamp,
-          }),
-        });
+    const userAgent = navigator.userAgent;
+    const tabOpenTime = Date.now();
 
-        const data = await res.json();
-        console.log("✅ Visitor data sent:", data);
-      } catch (error) {
-        console.error("❌ Error sending visitor data:", error);
-      }
+    const sendVisitorData = () => {
+      const tabCloseTime = Date.now();
+      const durationMin = ((tabCloseTime - tabOpenTime) / 60000).toFixed(2);
+
+      const data = JSON.stringify({
+        title,
+        authorEmail,
+        sessionId,
+        userAgent,
+        duration: durationMin,
+      });
+
+      const blob = new Blob([data], { type: 'application/json' });
+      navigator.sendBeacon('/api/visitorapi/trackvisitor', blob);
     };
 
-    sendVisitorData();
-  }, []);
+    window.addEventListener('beforeunload', sendVisitorData);
+    return () => {
+      window.removeEventListener('beforeunload', sendVisitorData);
+    };
+  }, [title, authorEmail]);
 
   return null;
 }

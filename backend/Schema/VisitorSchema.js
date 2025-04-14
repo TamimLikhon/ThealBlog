@@ -1,23 +1,14 @@
 import mongoose from "mongoose";
 
-const TrackVisitorSchema = new mongoose.Schema({
-  sessionId: { type: String, required: true, unique: true },
+const visitorSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  authorEmail: { type: String, required: true },
+  sessionId: { type: String, required: true },
   userAgent: { type: String, required: true },
-
-  urls: [
-    {
-      url: { type: String, required: true },
-      startTimestamp: { type: Date, default: Date.now },
-      endTimestamp: { type: Date },
-      visitTimespan: { type: Number, default: 0 }, 
-    }
-  ],
-
- 
+  duration: { type: Number, required: true },
+}, {
+  timestamps: true, // adds createdAt and updatedAt fields
 });
 
-const Visitor =
-  mongoose.models.TrackVisitor || mongoose.model("TrackVisitor", TrackVisitorSchema);
-
-export default Visitor;
-
+const Visit = mongoose.models.TrackVisit || mongoose.model("TrackVisit", visitorSchema);
+export default Visit;

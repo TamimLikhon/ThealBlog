@@ -94,11 +94,12 @@ export default function PostPage() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-12 px-4 sm:px-6">
+            <TrackVisitor title={post.title} authorEmail={post.authorEmail} />
             <h1 className="text-4xl font-extrabold text-white mb-4">{post.title}</h1>
             <div className="flex items-center justify-between mb-6">
                 <p className="font-bold">
                     <span className="text-ms text-white">Author: {post.authorEmail} </span>
-                    {session && session.user.email !== post.authorEmail && (
+                    {/* {session && session.user.email !== post.authorEmail && (
                         <button
                             onClick={handleFollow}
                             className={`ml-3 p-2 rounded-full transition ease-in-out duration-300 
@@ -106,7 +107,7 @@ export default function PostPage() {
                         >
                             {isFollowing ? <SlUserFollowing size={25} /> : <SlUserFollow size={25} />}
                         </button>
-                    )}
+                    )} */}
                 </p>
                 <p className="text-ms text-white">
                     <span className="text-ms font-bold">Date: {new Date(post.createdAt).toLocaleDateString()} </span> 

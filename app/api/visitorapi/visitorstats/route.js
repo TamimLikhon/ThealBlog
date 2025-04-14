@@ -1,46 +1,38 @@
-import { connectToDatabase } from "@/backend/lib/mongodb";
-import Visitor from "@/backend/Schema/VisitorSchema";
 import { NextResponse } from "next/server";
+import Visitor from "@/backend/Schema/VisitorSchema";
+import { connectToDatabase } from "@/backend/lib/mongodb";
+
 export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const email = searchParams.get("email");
+
+  await connectToDatabase();
+
   try {
-    await connectToDatabase();
-    const visitors = await Visitor.find();
-
-    const urlTimeMap = {};
-    
-    visitors.forEach(visitor => {
-      visitor.urls.forEach(entry => {
-        const rawUrl = entry.url || "";
-        const decodedUrl = decodeURIComponent(rawUrl);
-    
-        const start = new Date(entry.startTimestamp).getTime();
-        const end = new Date(entry.endTimestamp).getTime();
-        const visitTimespan = Math.max(end - start, 0);  // ms
-    
-        if (!urlTimeMap[decodedUrl]) {
-          urlTimeMap[decodedUrl] = 0;
-        }
-    
-        urlTimeMap[decodedUrl] += visitTimespan;
-      });
-    });
-    const formattedStats = Object.entries(urlTimeMap).map(([url, duration]) => ({
-      url,
-      duration: `${(duration / 1000).toFixed(2)} seconds`,
-    }));
-    formattedStats.sort((a, b) => b.duration - a.duration);
-    console.log("Visitor Data:", formattedStats);    
-
-    return NextResponse.json(formattedStats);
-  } catch (error) {
-    console.error("Visitor Data error:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Internal Server Error" }),
+    const visits = await Visitor.aggregate([
       {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+        $match: {
+          authorEmail: email,
+        },
+      },
+      {
+        $group: {
+          _id: "$title",
+          totalDuration: { $sum: "$duration" },
+        },
+      },
+      {
+        $project: {
+          title: "$_id",
+          totalDuration: { $round: ["$totalDuration", 2] }, // round to 2 decimal places
+          _id: 0,
+        },
+      },
+    ]);
+
+    return NextResponse.json({ visits }, { status: 200 });
+  } catch (error) {
+    console.error("API error:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-
